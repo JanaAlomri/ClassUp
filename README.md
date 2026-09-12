@@ -1,2 +1,2201 @@
-# ClassUp
-منصه تعليميه
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ClassUp | إدارة أسهل، صف أكثر تفاعلًا</title>
+
+<style>
+:root{
+--primary:#3157d5;
+--primary2:#2447bd;
+--bg:#f5f7fb;
+--card:#fff;
+--text:#172033;
+--muted:#667085;
+--line:#e6eaf2;
+--success:#1b9a68;
+--warning:#d98b16;
+--danger:#d94b5b;
+--shadow:0 10px 30px rgba(23,32,51,.07)
+}
+
+*{
+box-sizing:border-box;
+margin:0;
+padding:0
+}
+
+body{
+font-family:Arial,"Tahoma",sans-serif;
+background:var(--bg);
+color:var(--text);
+min-height:100vh
+}
+
+button,input,select{
+font:inherit
+}
+
+button{
+cursor:pointer
+}
+
+a{
+text-decoration:none;
+color:inherit
+}
+
+.hidden{
+display:none!important
+}
+
+.topbar{
+height:72px;
+background:#fff;
+border-bottom:1px solid var(--line);
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 6%;
+position:sticky;
+top:0;
+z-index:20
+}
+
+.logo{
+font-size:27px;
+font-weight:800;
+color:var(--primary)
+}
+
+.logo span{
+color:var(--text)
+}
+
+.top-actions{
+display:flex;
+gap:10px;
+align-items:center
+}
+
+.btn{
+border:0;
+border-radius:12px;
+padding:12px 20px;
+font-weight:700;
+transition:.2s
+}
+
+.btn:hover{
+transform:translateY(-2px)
+}
+
+.btn-primary{
+background:var(--primary);
+color:#fff
+}
+
+.btn-light{
+background:#eef2ff;
+color:var(--primary)
+}
+
+.btn-outline{
+background:#fff;
+color:var(--primary);
+border:1px solid #ccd5f5
+}
+
+.btn-danger{
+background:#fff0f2;
+color:var(--danger)
+}
+
+.avatar{
+width:40px;
+height:40px;
+border-radius:50%;
+background:#e9edff;
+color:var(--primary);
+display:grid;
+place-items:center;
+font-weight:800
+}
+
+.hero{
+min-height:calc(100vh - 72px);
+display:grid;
+place-items:center;
+padding:55px 20px
+}
+
+.hero-inner{
+max-width:1000px;
+text-align:center
+}
+
+.badge{
+display:inline-block;
+background:#e9edff;
+color:var(--primary);
+padding:9px 17px;
+border-radius:30px;
+font-weight:700;
+font-size:14px;
+margin-bottom:22px
+}
+
+.hero h1{
+font-size:clamp(40px,7vw,68px);
+line-height:1.15;
+margin-bottom:20px
+}
+
+.hero h1 span{
+color:var(--primary)
+}
+
+.hero p{
+max-width:700px;
+margin:auto;
+color:var(--muted);
+font-size:19px;
+line-height:1.9
+}
+
+.role-buttons{
+display:flex;
+justify-content:center;
+gap:15px;
+flex-wrap:wrap;
+margin:32px 0
+}
+
+.role-buttons .btn{
+min-width:180px;
+padding:16px 25px;
+font-size:17px
+}
+
+.features{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:15px;
+margin-top:45px
+}
+
+.feature{
+background:#fff;
+border:1px solid var(--line);
+padding:22px;
+border-radius:18px;
+box-shadow:var(--shadow)
+}
+
+.feature .icon{
+font-size:28px;
+margin-bottom:10px
+}
+
+.feature b{
+display:block;
+margin-bottom:5px
+}
+
+.feature small{
+color:var(--muted)
+}
+
+.auth-wrap{
+min-height:calc(100vh - 72px);
+display:grid;
+place-items:center;
+padding:30px
+}
+
+.auth-card{
+width:min(440px,100%);
+background:#fff;
+border:1px solid var(--line);
+border-radius:24px;
+padding:32px;
+box-shadow:var(--shadow)
+}
+
+.auth-card h2{
+font-size:28px;
+margin-bottom:8px
+}
+
+.auth-card>p{
+color:var(--muted);
+margin-bottom:25px;
+line-height:1.7
+}
+
+.form-group{
+margin-bottom:16px
+}
+
+.form-group label{
+display:block;
+font-weight:700;
+margin-bottom:7px
+}
+
+.form-group input,
+.form-group select{
+width:100%;
+padding:13px 14px;
+border:1px solid #d7ddea;
+border-radius:11px;
+outline:0;
+background:#fff
+}
+
+.form-group input:focus,
+.form-group select:focus{
+border-color:var(--primary)
+}
+
+.full{
+width:100%
+}
+
+.switch{
+text-align:center;
+margin-top:18px;
+color:var(--muted);
+font-size:14px
+}
+
+.switch button{
+border:0;
+background:none;
+color:var(--primary);
+font-weight:700
+}
+
+.app{
+display:flex;
+min-height:calc(100vh - 72px)
+}
+
+.sidebar{
+width:245px;
+background:#fff;
+border-left:1px solid var(--line);
+padding:22px 15px;
+position:fixed;
+right:0;
+top:72px;
+bottom:0
+}
+
+.side-title{
+padding:8px 12px 20px;
+color:var(--muted);
+font-size:13px;
+font-weight:700
+}
+
+.nav-item{
+width:100%;
+border:0;
+background:none;
+text-align:right;
+padding:13px 14px;
+border-radius:12px;
+margin-bottom:5px;
+color:#475467;
+font-weight:700
+}
+
+.nav-item:hover,
+.nav-item.active{
+background:#eef2ff;
+color:var(--primary)
+}
+
+.main{
+margin-right:245px;
+width:calc(100% - 245px);
+padding:28px 5%
+}
+
+.page-head{
+display:flex;
+justify-content:space-between;
+gap:15px;
+align-items:center;
+margin-bottom:25px
+}
+
+.page-head h2{
+font-size:28px
+}
+
+.page-head p{
+color:var(--muted);
+margin-top:5px
+}
+
+.stats{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:15px;
+margin-bottom:22px
+}
+
+.stat{
+background:#fff;
+border:1px solid var(--line);
+border-radius:17px;
+padding:20px;
+box-shadow:var(--shadow)
+}
+
+.stat-top{
+display:flex;
+justify-content:space-between;
+color:var(--muted);
+font-size:14px
+}
+
+.stat strong{
+font-size:30px;
+display:block;
+margin-top:12px
+}
+
+.stat .stat-icon{
+font-size:24px
+}
+
+.grid{
+display:grid;
+grid-template-columns:1.3fr 1fr;
+gap:18px
+}
+
+.card{
+background:#fff;
+border:1px solid var(--line);
+border-radius:18px;
+padding:22px;
+box-shadow:var(--shadow)
+}
+
+.card h3{
+margin-bottom:16px
+}
+
+.list{
+display:grid;
+gap:11px
+}
+
+.list-row{
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:13px;
+border:1px solid var(--line);
+border-radius:12px
+}
+
+.list-left{
+display:flex;
+align-items:center;
+gap:10px
+}
+
+.mini-avatar{
+width:38px;
+height:38px;
+border-radius:11px;
+background:#eef2ff;
+display:grid;
+place-items:center;
+font-weight:800;
+color:var(--primary)
+}
+
+.muted{
+color:var(--muted)
+}
+
+.progress{
+height:8px;
+background:#edf0f5;
+border-radius:10px;
+overflow:hidden;
+margin-top:8px
+}
+
+.progress i{
+display:block;
+height:100%;
+background:var(--primary);
+border-radius:10px
+}
+
+.chips{
+display:flex;
+gap:7px;
+flex-wrap:wrap
+}
+
+.chip{
+padding:6px 10px;
+border-radius:20px;
+background:#eef2ff;
+color:var(--primary);
+font-size:12px;
+font-weight:700
+}
+
+.table-wrap{
+overflow:auto
+}
+
+.table{
+width:100%;
+border-collapse:collapse
+}
+
+.table th,
+.table td{
+text-align:right;
+padding:14px;
+border-bottom:1px solid var(--line);
+white-space:nowrap
+}
+
+.table th{
+color:var(--muted);
+font-size:13px
+}
+
+.empty{
+padding:35px;
+text-align:center;
+color:var(--muted)
+}
+
+.toast{
+position:fixed;
+bottom:22px;
+left:22px;
+background:#172033;
+color:#fff;
+padding:13px 18px;
+border-radius:12px;
+box-shadow:var(--shadow);
+z-index:99
+}
+
+.mobile-menu{
+display:none
+}
+
+@media(max-width:900px){
+
+.features,
+.stats{
+grid-template-columns:repeat(2,1fr)
+}
+
+.sidebar{
+display:none
+}
+
+.main{
+margin-right:0;
+width:100%;
+padding:22px 18px
+}
+
+.mobile-menu{
+display:block
+}
+
+.grid{
+grid-template-columns:1fr
+}
+
+}
+
+@media(max-width:560px){
+
+.topbar{
+padding:0 18px
+}
+
+.top-actions .btn{
+padding:9px 12px
+}
+
+.features,
+.stats{
+grid-template-columns:1fr 1fr
+}
+
+.hero{
+padding:35px 16px
+}
+
+.hero p{
+font-size:16px
+}
+
+.feature{
+padding:16px
+}
+
+.page-head{
+align-items:flex-start;
+flex-direction:column
+}
+
+.role-buttons .btn{
+width:100%
+}
+
+}
+</style>
+</head>
+
+<body>
+
+<header class="topbar">
+
+<a class="logo" href="#" onclick="showLanding()">
+Class<span>Up</span>
+</a>
+
+<div class="top-actions">
+
+<button
+class="btn btn-light hidden"
+id="homeBtn"
+onclick="showLanding()">
+الرئيسية
+</button>
+
+<button
+class="btn btn-outline"
+id="loginTop"
+onclick="showLogin()">
+تسجيل الدخول
+</button>
+
+<div
+class="avatar hidden"
+id="avatar">
+ج
+</div>
+
+</div>
+</header>
+
+
+<section id="landing">
+
+<main class="hero">
+
+<div class="hero-inner">
+
+<div class="badge">
+🎓 منصة تعليمية تفاعلية
+</div>
+
+<h1>
+إدارة أسهل،
+<br>
+<span>صف أكثر تفاعلًا.</span>
+</h1>
+
+<p>
+ClassUp يساعد المعلمين على إدارة الصف،
+متابعة الطلاب، تنظيم الواجبات،
+وتحفيز الطلاب بالنقاط والإنجازات بطريقة سهلة وذكية.
+</p>
+
+<div class="role-buttons">
+
+<button
+class="btn btn-primary"
+onclick="openAuth('teacher')">
+👩🏻‍🏫 أنا معلم
+</button>
+
+<button
+class="btn btn-outline"
+onclick="openAuth('student')">
+👩🏻‍🎓 أنا طالب
+</button>
+
+</div>
+
+<div class="features">
+
+<div class="feature">
+<div class="icon">⭐</div>
+<b>النقاط</b>
+<small>حفّز طلابك بالنقاط</small>
+</div>
+
+<div class="feature">
+<div class="icon">🏆</div>
+<b>الإنجازات</b>
+<small>شارات ومكافآت مميزة</small>
+</div>
+
+<div class="feature">
+<div class="icon">📊</div>
+<b>التقارير</b>
+<small>تابع مستوى الصف</small>
+</div>
+
+<div class="feature">
+<div class="icon">📚</div>
+<b>الواجبات</b>
+<small>تنظيم ومتابعة التسليم</small>
+</div>
+
+</div>
+
+</div>
+</main>
+
+</section>
+
+
+<section id="auth" class="auth-wrap hidden">
+
+<div class="auth-card">
+
+<button
+class="btn btn-light"
+onclick="showLanding()">
+← رجوع
+</button>
+
+<h2
+id="authTitle"
+style="margin-top:20px">
+تسجيل الدخول
+</h2>
+
+<p id="authSub">
+ادخل إلى حسابك في ClassUp.
+</p>
+
+<div class="form-group">
+
+<label>
+الاسم
+</label>
+
+<input
+id="nameInput"
+placeholder="مثال: جود العمري">
+
+</div>
+
+<div class="form-group">
+
+<label>
+البريد الإلكتروني
+</label>
+
+<input
+id="emailInput"
+type="email"
+placeholder="name@example.com">
+
+</div>
+
+<div class="form-group">
+
+<label>
+كلمة المرور
+</label>
+
+<input
+id="passInput"
+type="password"
+placeholder="••••••••">
+
+</div>
+
+<button
+class="btn btn-primary full"
+onclick="login()">
+دخول إلى ClassUp
+</button>
+
+<div class="switch">
+هذه نسخة تجريبية للواجهة — البيانات تحفظ محليًا على هذا الجهاز.
+</div>
+
+</div>
+
+</section>
+
+
+<section id="dashboard" class="hidden">
+
+<div class="app">
+
+<aside class="sidebar">
+
+<div
+class="side-title"
+id="sideRole">
+لوحة المعلم
+</div>
+
+<button
+class="nav-item active"
+onclick="renderPage('home',this)">
+🏠 الرئيسية
+</button>
+
+<button
+class="nav-item"
+onclick="renderPage('classes',this)">
+🏫 الصفوف
+</button>
+
+<button
+class="nav-item"
+onclick="renderPage('students',this)">
+👥 الطلاب
+</button>
+
+<button
+class="nav-item"
+onclick="renderPage('points',this)">
+⭐ النقاط
+</button>
+
+<button
+class="nav-item"
+onclick="renderPage('challenges',this)">
+🎯 التحديات
+</button>
+
+<button
+class="nav-item"
+onclick="renderPage('rewards',this)">
+🎁 المكافآت
+</button>
+
+<button
+class="nav-item"
+onclick="renderPage('assignments',this)">
+📚 الواجبات
+</button>
+
+<button
+class="nav-item"
+onclick="renderPage('reports',this)">
+📊 التقارير
+</button>
+
+<button
+class="nav-item"
+onclick="renderPage('settings',this)">
+⚙️ الإعدادات
+</button>
+
+<button
+class="nav-item"
+style="margin-top:20px;color:#d94b5b"
+onclick="logout()">
+🚪 تسجيل الخروج
+</button>
+
+</aside>
+
+
+<main
+class="main"
+id="mainContent">
+</main>
+
+</div>
+
+</section>
+
+
+<div
+id="toast"
+class="toast hidden">
+</div>
+
+
+<script>
+
+const state={
+
+role:null,
+
+name:'',
+
+students:[
+
+{
+name:'سارة محمد',
+points:245,
+progress:92,
+badge:'🏆'
+},
+
+{
+name:'نورة علي',
+points:220,
+progress:87,
+badge:'⭐'
+},
+
+{
+name:'ريم خالد',
+points:198,
+progress:81,
+badge:'🔥'
+},
+
+{
+name:'ليان أحمد',
+points:176,
+progress:76,
+badge:'💎'
+},
+
+{
+name:'شهد عبدالله',
+points:150,
+progress:70,
+badge:'🌟'
+}
+
+],
+
+assignments:[
+
+{
+title:'مراجعة الوحدة الأولى',
+subject:'الرياضيات',
+due:'غدًا',
+status:'نشط'
+},
+
+{
+title:'نشاط جماعي',
+subject:'العلوم',
+due:'بعد 3 أيام',
+status:'نشط'
+},
+
+{
+title:'واجب القراءة',
+subject:'اللغة العربية',
+due:'الخميس',
+status:'نشط'
+}
+
+]
+
+};
+
+
+function hideAll(){
+
+[
+'landing',
+'auth',
+'dashboard'
+].forEach(id=>
+document
+.getElementById(id)
+.classList.add('hidden')
+);
+
+}
+
+
+function showLanding(){
+
+hideAll();
+
+document
+.getElementById('landing')
+.classList.remove('hidden');
+
+document
+.getElementById('loginTop')
+.classList.remove('hidden');
+
+document
+.getElementById('avatar')
+.classList.add('hidden');
+
+document
+.getElementById('homeBtn')
+.classList.add('hidden');
+
+}
+
+
+function showLogin(){
+
+openAuth(state.role||'teacher');
+
+}
+
+
+function openAuth(role){
+
+hideAll();
+
+document
+.getElementById('auth')
+.classList.remove('hidden');
+
+state.role=role;
+
+document
+.getElementById('authTitle')
+.textContent=
+role==='teacher'
+?'دخول المعلم 👩🏻‍🏫'
+:'دخول الطالب 👩🏻‍🎓';
+
+document
+.getElementById('authSub')
+.textContent=
+role==='teacher'
+?'سجّل دخولك لإدارة صفوفك ومتابعة طلابك.'
+:'سجّل دخولك لمتابعة نقاطك وواجباتك.';
+
+}
+
+
+function login(){
+
+const name=
+document
+.getElementById('nameInput')
+.value
+.trim()
+||
+(state.role==='teacher'
+?'المعلم'
+:'الطالب');
+
+state.name=name;
+
+localStorage.setItem(
+'classup_user',
+JSON.stringify({
+role:state.role,
+name
+})
+);
+
+showDashboard();
+
+toast('تم تسجيل الدخول بنجاح 🎉');
+
+}
+
+
+function showDashboard(){
+
+hideAll();
+
+document
+.getElementById('dashboard')
+.classList.remove('hidden');
+
+document
+.getElementById('loginTop')
+.classList.add('hidden');
+
+document
+.getElementById('avatar')
+.classList.remove('hidden');
+
+document
+.getElementById('avatar')
+.textContent=
+(state.name||'ج').charAt(0);
+
+document
+.getElementById('homeBtn')
+.classList.remove('hidden');
+
+document
+.getElementById('sideRole')
+.textContent=
+state.role==='teacher'
+?'لوحة المعلم'
+:'لوحة الطالب';
+
+renderPage(
+'home',
+document.querySelector('.nav-item')
+);
+
+}
+
+
+function logout(){
+
+localStorage.removeItem('classup_user');
+
+state.role=null;
+state.name='';
+
+showLanding();
+
+toast('تم تسجيل الخروج');
+
+}
+
+
+function renderPage(page,el){
+
+document
+.querySelectorAll('.nav-item')
+.forEach(x=>
+x.classList.remove('active')
+);
+
+if(el)
+el.classList.add('active');
+
+const m=
+document.getElementById('mainContent');
+
+const teacher=
+state.role==='teacher';
+
+let title='';
+let sub='';
+let body='';
+
+
+if(page==='home'){
+
+title=
+teacher
+?'مرحبًا بك، '+state.name+' 👋'
+:'مرحبًا بك، '+state.name+' 👋';
+
+sub=
+teacher
+?'إليك نظرة سريعة على صفك اليوم.'
+:'إليك ملخص تقدمك في ClassUp.';
+
+body=
+teacher
+?teacherHome()
+:studentHome();
+
+}
+
+
+if(page==='classes'){
+
+title='الصفوف';
+
+sub=
+'أنشئ صفوفك وشارك كود الانضمام مع الطلاب.';
+
+body=classesPage();
+
+}
+
+
+if(page==='students'){
+
+title='الطلاب';
+
+sub=
+'تابع أداء الطلاب وترتيبهم داخل الصف.';
+
+body=studentsPage();
+
+}
+
+
+if(page==='points'){
+
+title='النقاط ⭐';
+
+sub=
+'نظام بسيط لتحفيز الطلاب.';
+
+body=pointsPage();
+
+}
+
+
+if(page==='challenges'){
+
+title='التحديات 🎯';
+
+sub=
+'أنشئ تحديات قصيرة لزيادة التفاعل.';
+
+body=challengesPage();
+
+}
+
+
+if(page==='rewards'){
+
+title='المكافآت 🎁';
+
+sub=
+'حوّل النقاط إلى مكافآت تحفيزية.';
+
+body=rewardsPage();
+
+}
+
+
+if(page==='assignments'){
+
+title='الواجبات 📚';
+
+sub=
+'أنشئ الواجبات وتابع التسليم.';
+
+body=assignmentsPage();
+
+}
+
+
+if(page==='reports'){
+
+title='التقارير 📊';
+
+sub=
+'ملخص سريع لأداء الصف.';
+
+body=reportsPage();
+
+}
+
+
+if(page==='settings'){
+
+title='الإعدادات ⚙️';
+
+sub=
+'إعدادات الحساب والمنصة.';
+
+body=settingsPage();
+
+}
+
+
+m.innerHTML=`
+
+<div class="page-head">
+
+<div>
+
+<h2>${title}</h2>
+
+<p>${sub}</p>
+
+</div>
+
+<button
+class="btn btn-primary mobile-menu"
+onclick="toast('استخدمي القائمة الجانبية من الشاشة الكبيرة')">
+☰ القائمة
+</button>
+
+</div>
+
+${body}
+
+`;
+
+}
+
+
+function teacherHome(){
+
+return `
+
+<div class="stats">
+
+<div class="stat">
+
+<div class="stat-top">
+عدد الطلاب
+<span class="stat-icon">👥</span>
+</div>
+
+<strong>28</strong>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-top">
+إجمالي النقاط
+<span class="stat-icon">⭐</span>
+</div>
+
+<strong>1,245</strong>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-top">
+الواجبات
+<span class="stat-icon">📚</span>
+</div>
+
+<strong>3</strong>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-top">
+متوسط التقدم
+<span class="stat-icon">📈</span>
+</div>
+
+<strong>84%</strong>
+
+</div>
+
+</div>
+
+
+<div class="grid">
+
+<div class="card">
+
+<h3>
+🏆 ترتيب الطلاب
+</h3>
+
+<div class="list">
+
+${state.students.map((s,i)=>`
+
+<div class="list-row">
+
+<div class="list-left">
+
+<div class="mini-avatar">
+${i+1}
+</div>
+
+<div>
+
+<b>${s.name}</b>
+
+<div class="muted">
+${s.points} نقطة
+</div>
+
+</div>
+
+</div>
+
+<span>
+${s.badge}
+</span>
+
+</div>
+
+`).join('')}
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h3>
+📚 الواجبات القادمة
+</h3>
+
+<div class="list">
+
+${state.assignments.map(a=>`
+
+<div class="list-row">
+
+<div>
+
+<b>${a.title}</b>
+
+<div class="muted">
+${a.subject} · ${a.due}
+</div>
+
+</div>
+
+<span class="chip">
+${a.status}
+</span>
+
+</div>
+
+`).join('')}
+
+</div>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+
+function studentHome(){
+
+return `
+
+<div class="stats">
+
+<div class="stat">
+
+<div class="stat-top">
+نقاطي
+<span>⭐</span>
+</div>
+
+<strong>245</strong>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-top">
+ترتيبي
+<span>🏆</span>
+</div>
+
+<strong>#3</strong>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-top">
+الإنجازات
+<span>🏅</span>
+</div>
+
+<strong>7</strong>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-top">
+التقدم
+<span>📈</span>
+</div>
+
+<strong>86%</strong>
+
+</div>
+
+</div>
+
+
+<div class="grid">
+
+<div class="card">
+
+<h3>
+🔥 سلسلة النشاط
+</h3>
+
+<p
+style="font-size:18px;margin-bottom:15px">
+استمر 5 أيام متتالية!
+</p>
+
+<div class="progress">
+<i style="width:70%"></i>
+</div>
+
+<p
+class="muted"
+style="margin-top:10px">
+هدفك القادم: 7 أيام
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h3>
+🏅 آخر الإنجازات
+</h3>
+
+<div class="chips">
+
+<span class="chip">
+⭐ متفاعل
+</span>
+
+<span class="chip">
+🔥 5 أيام
+</span>
+
+<span class="chip">
+📚 واجب كامل
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+
+function classesPage(){
+
+return `
+
+<div class="grid">
+
+<div class="card">
+
+<h3>
+صف الرياضيات
+</h3>
+
+<p class="muted">
+28 طالبًا · كود الانضمام
+</p>
+
+<div
+style="font-size:30px;font-weight:800;margin:15px 0;color:var(--primary);letter-spacing:4px">
+CU-4821
+</div>
+
+<button
+class="btn btn-primary"
+onclick="navigator.clipboard?.writeText('CU-4821');toast('تم نسخ كود الصف 📋')">
+نسخ الكود
+</button>
+
+</div>
+
+
+<div class="card">
+
+<h3>
+➕ إنشاء صف جديد
+</h3>
+
+<div class="form-group">
+
+<label>
+اسم الصف
+</label>
+
+<input
+id="className"
+placeholder="مثال: الرياضيات 3/1">
+
+</div>
+
+<button
+class="btn btn-primary"
+onclick="createClass()">
+إنشاء الصف
+</button>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+
+function createClass(){
+
+const n=
+document
+.getElementById('className')
+.value
+.trim();
+
+if(!n)
+return toast('اكتبي اسم الصف أولًا');
+
+toast(
+'تم إنشاء الصف: '+n+' 🎉'
+);
+
+}
+
+
+function studentsPage(){
+
+return `
+
+<div class="card">
+
+<div class="table-wrap">
+
+<table class="table">
+
+<thead>
+
+<tr>
+
+<th>#</th>
+<th>الطالب</th>
+<th>النقاط</th>
+<th>التقدم</th>
+<th>الإنجاز</th>
+
+</tr>
+
+</thead>
+
+
+<tbody>
+
+${state.students.map((s,i)=>`
+
+<tr>
+
+<td>${i+1}</td>
+
+<td>
+<b>${s.name}</b>
+</td>
+
+<td>
+⭐ ${s.points}
+</td>
+
+<td style="min-width:160px">
+
+${s.progress}%
+
+<div class="progress">
+
+<i style="width:${s.progress}%"></i>
+
+</div>
+
+</td>
+
+<td>
+${s.badge}
+</td>
+
+</tr>
+
+`).join('')}
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+
+function pointsPage(){
+
+return `
+
+<div class="grid">
+
+<div class="card">
+
+<h3>
+إضافة نقاط لطالب
+</h3>
+
+<div class="form-group">
+
+<label>
+الطالب
+</label>
+
+<select id="pointStudent">
+
+${state.students.map(s=>
+`<option>${s.name}</option>`
+).join('')}
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+عدد النقاط
+</label>
+
+<input
+id="pointValue"
+type="number"
+value="10">
+
+</div>
+
+
+<button
+class="btn btn-primary"
+onclick="addPoints()">
+إضافة النقاط ⭐
+</button>
+
+</div>
+
+
+<div class="card">
+
+<h3>
+اقتراحات سريعة
+</h3>
+
+<div class="chips">
+
+<span class="chip">
++5 مشاركة
+</span>
+
+<span class="chip">
++10 واجب
+</span>
+
+<span class="chip">
++20 تحدي
+</span>
+
+<span class="chip">
++25 تعاون
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+
+function addPoints(){
+
+const name=
+document
+.getElementById('pointStudent')
+.value;
+
+const val=
+Number(
+document
+.getElementById('pointValue')
+.value
+)||0;
+
+const s=
+state.students.find(
+x=>x.name===name
+);
+
+if(s)
+s.points+=val;
+
+toast(
+`تمت إضافة ${val} نقطة لـ ${name} ⭐`
+);
+
+}
+
+
+function challengesPage(){
+
+return `
+
+<div class="grid">
+
+<div class="card">
+
+<h3>
+🎯 تحديات الصف
+</h3>
+
+<div class="list">
+
+<div class="list-row">
+
+<div>
+
+<b>
+تحدي المشاركة
+</b>
+
+<div class="muted">
+احصل على 20 نقطة
+</div>
+
+</div>
+
+<span class="chip">
+نشط
+</span>
+
+</div>
+
+
+<div class="list-row">
+
+<div>
+
+<b>
+أسبوع بلا تأخير
+</b>
+
+<div class="muted">
+سلم كل الواجبات في موعدها
+</div>
+
+</div>
+
+<span class="chip">
+نشط
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h3>
+➕ تحدي جديد
+</h3>
+
+<div class="form-group">
+
+<label>
+اسم التحدي
+</label>
+
+<input
+id="challengeName"
+placeholder="مثال: تحدي القراءة">
+
+</div>
+
+<button
+class="btn btn-primary"
+onclick="toast('تمت إضافة التحدي 🎯')">
+إضافة التحدي
+</button>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+
+function rewardsPage(){
+
+return `
+
+<div class="card">
+
+<h3>
+🎁 متجر المكافآت
+</h3>
+
+<div
+class="features"
+style="margin-top:0;grid-template-columns:repeat(3,1fr)">
+
+<div class="feature">
+
+<div class="icon">
+⭐
+</div>
+
+<b>
+اختيار نشاط
+</b>
+
+<small>
+100 نقطة
+</small>
+
+</div>
+
+
+<div class="feature">
+
+<div class="icon">
+🎨
+</div>
+
+<b>
+شارة مميزة
+</b>
+
+<small>
+150 نقطة
+</small>
+
+</div>
+
+
+<div class="feature">
+
+<div class="icon">
+👑
+</div>
+
+<b>
+نجم الأسبوع
+</b>
+
+<small>
+250 نقطة
+</small>
+
+</div>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+
+function assignmentsPage(){
+
+return `
+
+<div class="card">
+
+<div
+style="display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:15px">
+
+<h3 style="margin:0">
+قائمة الواجبات
+</h3>
+
+<button
+class="btn btn-primary"
+onclick="addAssignment()">
+➕ واجب جديد
+</button>
+
+</div>
+
+
+<div class="list">
+
+${state.assignments.map(a=>`
+
+<div class="list-row">
+
+<div>
+
+<b>
+${a.title}
+</b>
+
+<div class="muted">
+${a.subject} · التسليم ${a.due}
+</div>
+
+</div>
+
+<span class="chip">
+${a.status}
+</span>
+
+</div>
+
+`).join('')}
+
+</div>
+
+</div>
+
+`;
+
+}
+
+
+function addAssignment(){
+
+state.assignments.push({
+
+title:'واجب جديد',
+
+subject:'عام',
+
+due:'بعد 3 أيام',
+
+status:'نشط'
+
+});
+
+renderPage(
+'assignments',
+document.querySelectorAll('.nav-item')[6]
+);
+
+toast(
+'تمت إضافة واجب جديد 📚'
+);
+
+}
+
+
+function reportsPage(){
+
+return `
+
+<div class="stats">
+
+<div class="stat">
+
+<div class="stat-top">
+نسبة التسليم
+</div>
+
+<strong>
+91%
+</strong>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-top">
+متوسط النقاط
+</div>
+
+<strong>
+44
+</strong>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-top">
+المتفاعلون
+</div>
+
+<strong>
+23
+</strong>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-top">
+بحاجة لتشجيع
+</div>
+
+<strong>
+5
+</strong>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h3>
+💡 ملاحظة ذكية
+</h3>
+
+<p
+class="muted"
+style="line-height:1.9">
+
+يوجد 5 طلاب يحتاجون إلى تشجيع إضافي.
+يمكنك إنشاء تحدٍ قصير أو منح نقاط للمشاركة
+لرفع التفاعل.
+
+</p>
+
+</div>
+
+`;
+
+}
+
+
+function settingsPage(){
+
+return `
+
+<div class="card">
+
+<h3>
+إعدادات الحساب
+</h3>
+
+<div class="form-group">
+
+<label>
+الاسم
+</label>
+
+<input
+value="${state.name}"
+id="settingsName">
+
+</div>
+
+<button
+class="btn btn-primary"
+onclick="saveSettings()">
+حفظ التغييرات
+</button>
+
+</div>
+
+`;
+
+}
+
+
+function saveSettings(){
+
+const n=
+document
+.getElementById('settingsName')
+.value
+.trim();
+
+if(n){
+
+state.name=n;
+
+localStorage.setItem(
+'classup_user',
+JSON.stringify({
+role:state.role,
+name:n
+})
+);
+
+showDashboard();
+
+toast(
+'تم حفظ التغييرات ✅'
+);
+
+}
+
+}
+
+
+function toast(msg){
+
+const t=
+document
+.getElementById('toast');
+
+t.textContent=msg;
+
+t.classList.remove('hidden');
+
+setTimeout(
+()=>
+t.classList.add('hidden'),
+2200
+);
+
+}
+
+
+const saved=
+localStorage.getItem('classup_user');
+
+if(saved){
+
+try{
+
+Object.assign(
+state,
+JSON.parse(saved)
+);
+
+showDashboard();
+
+}
+catch(e){}
+
+}
+
+</script>
+
+</body>
+</html>
