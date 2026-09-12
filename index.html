@@ -14,7 +14,26 @@ async function submitAuth(){clearErr();const email=$('emailInput').value.trim().
 function firebaseError(e){const c=e?.code||'';if(c.includes('email-already-in-use'))return'البريد الإلكتروني مستخدم مسبقًا.';if(c.includes('invalid-credential')||c.includes('wrong-password')||c.includes('user-not-found'))return'البريد أو كلمة المرور غير صحيحة.';if(c.includes('weak-password'))return'كلمة المرور ضعيفة.';return e?.message||'حدث خطأ، حاولي مرة أخرى.'}
 async function forgotPassword(){const email=$('emailInput').value.trim();if(!email)return err('اكتبي البريد الإلكتروني أولًا.');try{await sendPasswordResetEmail(auth,email);toast('تم إرسال رابط إعادة تعيين كلمة المرور.')}catch(e){err(firebaseError(e))}}
 async function logout(){await signOut(auth);showLanding();toast('تم تسجيل الخروج')}
-async function handleUser(u){if(!u){S.user=null;return showLanding()}S.user=u;S.uid=u.uid;const us=await getDoc(doc(db,'users',u.uid));if(!us.exists()){await signOut(auth);return}const d=us.data();S.role=d.role;S.name=d.name||u.displayName||'';S.email=d.email||u.email||'';S.classId=d.classId||null;await loadData();showDashboard()}
+async function handleUser(u){
+  if(!u){S.user=null;return showLanding()}
+  try{
+    S.user=u;S.uid=u.uid;
+    let us=await getDoc(doc(db,'users',u.uid));
+    if(!us.exists()){
+      const st=await getDoc(doc(db,'students',u.uid));
+      if(st.exists()){
+        const sd=st.data();
+        await setDoc(doc(db,'users',u.uid),{name:sd.name||u.displayName||'',email:sd.email||u.email||'',role:'student',classId:sd.classId||null,createdAt:Date.now()});
+      }else{
+        await setDoc(doc(db,'users',u.uid),{name:u.displayName||u.email?.split('@')[0]||'معلم',email:u.email||'',role:authRole||'teacher',createdAt:Date.now()});
+      }
+      us=await getDoc(doc(db,'users',u.uid));
+    }
+    const d=us.data();
+    S.role=d.role;S.name=d.name||u.displayName||'';S.email=d.email||u.email||'';S.classId=d.classId||null;
+    await loadData();showDashboard();
+  }catch(e){console.error(e);err(firebaseError(e));showLanding()}
+}
 async function loadData(){S.classes=[];S.students=[];S.assignments=[];S.challenges=[];S.rewards=[];if(S.role==='teacher'){const q=query(collection(db,'classes'),where('teacherId','==',S.uid));S.classes=(await getDocs(q)).docs.map(x=>({id:x.id,...x.data()}));if(!S.classId||!S.classes.some(x=>x.id===S.classId))S.classId=S.classes[0]?.id||null}else if(S.classId){const p=await getDoc(doc(db,'students',S.uid));if(p.exists())S.students=[{id:p.id,...p.data()}]}await loadClassData()}
 async function loadClassData(){if(!S.classId)return;const load=async(col)=>{const q=query(collection(db,col),where('classId','==',S.classId));return(await getDocs(q)).docs.map(x=>({id:x.id,...x.data()}))};if(S.role==='teacher'){S.students=await load('students');S.assignments=await load('assignments');S.challenges=await load('challenges');S.rewards=await load('rewards')}else{S.assignments=await load('assignments');S.challenges=await load('challenges');S.rewards=await load('rewards')}}
 function showDashboard(){ $('landing').classList.add('hidden');$('authPage').classList.add('hidden');$('dashboard').classList.remove('hidden');$('roleLabel').textContent=S.role==='teacher'?'معلم':'طالب';renderSidebar();renderPage('home')}
